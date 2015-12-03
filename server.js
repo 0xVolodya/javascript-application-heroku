@@ -69,7 +69,7 @@ fileEmmiter.on("mainLayoutExists",handleLayout);
 fileEmmiter.on("statisFileExists",serveStatic);
 fileEmmiter.on("fileError", function (reason) {
     console.log(reason);
-})
+});
 
 /*Сам сервер*/
 var server =http.createServer(function (req, res) {
@@ -96,4 +96,4 @@ var server =http.createServer(function (req, res) {
 
 server.listen(port, function () {
     console.log("Server listening to PORT:"+port);
-})
+});

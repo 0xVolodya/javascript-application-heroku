@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <title>Javascript project</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="/style/normalize.css">
+
 </head>
 <body>
-<h1>BLABLBLBALLBAL</h1>
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-header__title">
+                <a href="#/" class="page-header_title-link">
+                    Github API</a>
+                <span id="currentPageTitle"></span>
+            </h1>
+            <i class="fa fa-spinner" id="spinner"></i>
+        </header>
+        <div id="viewContainer"></div>
+        <footer class="page-footer">
+            <p class="page-footer__title">&copy; 2015 by Lebedev V.V.</p>
+        </footer>
+    </div>
+    <script src="/scripts/controllers.js"></script>
+    <script src="/scripts/app.js"></script>
 </body>
 </html>
