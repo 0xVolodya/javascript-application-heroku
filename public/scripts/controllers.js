@@ -11,7 +11,6 @@ function BaseController() {
 
 BaseController.prototype.loadTemplate = function (pathToTemplate, callback) {
     var template = sessionStorage.getItem(pathToTemplate);
-    console.log(template);
 
     if (!template) {
         var xhr = new XMLHttpRequest();
@@ -24,7 +23,6 @@ BaseController.prototype.loadTemplate = function (pathToTemplate, callback) {
             if(respond.status==200){
                 template=respond.responseText;
 
-                console.log(1111111111);
                 //sessionStorage.setItem(pathToTemplate,template);
                 callback(template);
             }
@@ -44,14 +42,59 @@ function SearchController() {
     this.templatePath = '/templates/search.html';
 
     var searchHandler = (function (event) {
+        var self=this;
+        self.searchInput.removeEventListener('keyup',searchHandler,false);
 
-    });
+        setTimeout(function () {
+            var element=event.target;
+            console.log(element.value.length);
+            if(element.value.length==0){
+                self.searchPlaceholder.style.display="block";
+                self.searchArea.style.display="none";
+                self.notFoundBlock.style.display="none";
+            }else{
+                Users.find(element.value, function (usersData) {
+                    self.searchPlaceholder.style.display="none";
+                    self.searchArea.style.display="block";
+                    self.notFoundBlock.style.display="none";
+                    var userList=document.createDocumentFragment();
+                    var ul=document.createElement('ul');
+                    var li=null;
+                    var a=null;
+                    ul.className='search-result__list';
+                    usersData.items.forEach(function (user) {
+                        li=document.createElement('li');
+                        li.className='search-result__item';
+                        a=document.createElement('a');
+                        a.className='search-result__link';
+                        a.appendChild(document.createTextNode(user.login));
+                        li.appendChild(a);
+                        userList.appendChild(li);
+
+                    });
+                    ul.appendChild(userList);
+                    self.searchArea.replaceChild(ul,self.searchArea.firstElementChild);
+                })
+
+            }
+            self.searchInput.addEventListener('keyup', searchHandler,false);
+
+        },500);
+
+    }).bind(this);
 
     $this.loadTemplate($this.templatePath, function (template) {
         document.title='Поиск';
-        $this.currentPageTitle.innerHTML=StateManager.getCurrentState().title;
 
+        $this.currentPageTitle.innerHTML=StateManager.getCurrentState().title;
         $this.viewContainer.innerHTML=template;
+
+        $this.searchArea        = document.getElementById('searchArea');
+        $this.searchInput       = document.getElementById('searchInput');
+        $this.searchPlaceholder = document.getElementById('searchPlaceholder');
+        $this.notFoundBlock     = document.getElementById('resultNotFound');
+
+        $this.searchInput.addEventListener('keyup', searchHandler, false);
 
     });
 
