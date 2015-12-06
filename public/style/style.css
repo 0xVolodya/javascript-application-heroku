@@ -1,3 +1,32 @@
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:befo-re` to contain the top-margins of child elements.
+ */
+* {
+  box-sizing: border-box; }
+
+.cf:before,
+.cf:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */ }
+
+.cf:after {
+  clear: both; }
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+  *zoom: 1; }
+
 html {
   font-family: 'PT Sans', sans-serif; }
 
@@ -30,13 +59,15 @@ body {
     margin-left: 10px; }
 
 #spinner {
+  display: none;
   position: absolute;
   right: 10px; }
 
 #viewContainer {
   position: relative;
   color: black;
-  font-size: 20px; }
+  font-size: 20px;
+  margin-bottom: 40px; }
   #viewContainer .search-form {
     margin: 40px auto;
     text-align: center;
@@ -49,3 +80,87 @@ body {
       padding: 10px; }
     #viewContainer .search-form .searchText {
       margin-top: 101px; }
+  #viewContainer .search-result__list {
+    list-style: none;
+    margin-top: 0px;
+    padding: 0px; }
+  #viewContainer .search-result__item {
+    padding: 10px 20px; }
+    #viewContainer .search-result__item:hover {
+      background-color: #f2f2f2; }
+  #viewContainer .search-result__link {
+    text-decoration: none;
+    color: black;
+    display: block; }
+
+.profile .tabs {
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+  background-color: #537599; }
+  .profile .tabs__list {
+    padding: 0px;
+    position: relative; }
+  .profile .tabs__item {
+    text-align: center;
+    height: 100%;
+    display: table-cell;
+    width: 20%; }
+    .profile .tabs__item:hover {
+      background-color: lightblue; }
+  .profile .tabs__link {
+    text-decoration: none;
+    display: block;
+    color: white;
+    padding: 15px; }
+  .profile .tabs .active {
+    background-color: dodgerblue; }
+
+.profile .content {
+  font-size: 17px;
+  margin-bottom: 20px; }
+  .profile .content__logo {
+    width: 50%;
+    box-sizing: border-box;
+    float: left;
+    padding-left: 10px; }
+  .profile .content__list {
+    list-style: none;
+    padding: 0px;
+    width: 50%;
+    float: right; }
+  .profile .content__item {
+    margin-bottom: 10px; }
+    .profile .content__item-first {
+      text-align: center;
+      width: 45%;
+      display: inline-block; }
+    .profile .content__item-second {
+      display: inline-block;
+      width: 45%; }
+
+.profile .links {
+  width: 50%;
+  text-align: left;
+  padding: 0 15px; }
+  .profile .links__link {
+    text-decoration: none;
+    box-sizing: border-box; }
+  .profile .links .fa-github {
+    color: black; }
+
+.user-list {
+  padding: 0;
+  list-style: none;
+  width: 500px;
+  margin: 0 auto;
+  font-size: 20px; }
+  .user-list__item {
+    border: solid 1px #F2F2F2; }
+    .user-list__item:hover {
+      background-color: #F2F2F2; }
+  .user-list__link {
+    text-decoration: none;
+    display: block;
+    padding: 15px;
+    color: black; }

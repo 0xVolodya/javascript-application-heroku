@@ -1,0 +1,46 @@
+<div class="profile">
+    <div class="tabs">
+        <ul class="tabs__list">
+            <li class="tabs__item active">
+                <a href="#/profile/{{userId}}/main" class="tabs__link">Основная информация</a>
+            </li>
+            <li class="tabs__item ">
+                <a href="#/profile/{{userId}}/followers" class="tabs__link">Подписчики</a>
+            </li>
+            <li class="tabs__item">
+                <a href="#/profile/{{userId}}/following" class="tabs__link">Подписки</a>
+            </li>
+            <li class="tabs__item">
+                <a href="#/profile/{{userId}}/repositories" class="tabs__link">Репозитории</a>
+            </li>
+        </ul>
+    </div>
+    <div class="content cf">
+        <div class="content__logo">
+            <img class="content__logo-img" src="{{avatar}}" alt="картинка пользователя">
+        </div>
+        <ul class="content__list">
+            <li class="content__item">
+                <div class="content__item-first">Имя:</div>
+                <div class="content__item-second">{{name}}</div>
+            </li>
+            <li class="content__item">
+                <div class="content__item-first">Компания:</div>
+                <div class="content__item-second">{{company}}</div>
+            </li>
+            <li class="content__item">
+                <div class="content__item-first">Публичных репозиториев:</div>
+                <div class="content__item-second"> {{public_repos}}</div>
+            </li>
+            <li class="content__item">
+                <div class="content__item-first">Количество фолловеров:</div>
+                <div class="content__item-second">{{followers}}</div>
+            </li>
+        </ul>
+    </div>
+    <div class="links">
+        <a class="links__link fa fa-4x fa-github" href="{{link}}"
+                target="_blank">
+        </a>
+    </div>
+</div>

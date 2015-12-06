@@ -16,87 +16,210 @@ BaseController.prototype.loadTemplate = function (pathToTemplate, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', pathToTemplate, true);
         xhr.send();
-        console.log(xhr);
-        console.log(xhr.status);
         xhr.addEventListener('load', function (event) {
-            var respond=event.target;
-            if(respond.status==200){
-                template=respond.responseText;
+            var respond = event.target;
+            if (respond.status == 200) {
+                template = respond.responseText;
 
                 //sessionStorage.setItem(pathToTemplate,template);
                 callback(template);
             }
-        },false);
+        }, false);
     }
-    else{
+    else {
         callback(template);
     }
 };
 
+
+BaseController.prototype.makeUserList = function (userList) {
+    var content = document.getElementsByClassName('content')[0];
+
+    var fragment = document.createDocumentFragment();
+    var ul = document.createElement('ul');
+    ul.className = 'user-list';
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    userList.forEach(function (user) {
+
+        a = document.createElement('a');
+        a.href = '#/profile/' + user.id + '/main';
+        a.className = 'user-list__link';
+        a.appendChild(document.createTextNode(user.login));
+        li = document.createElement('li');
+        li.className = 'user-list__item';
+        li.appendChild(a);
+        fragment.appendChild(li);
+
+    });
+    ul.appendChild(fragment);
+    content.appendChild(ul);
+};
+
+BaseController.prototype.parseTemplate = function (template, data) {
+    var regexp;
+
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            var r = new RegExp('{{' + key + '}}', 'g');
+
+            regexp = r;
+            template = template.replace(regexp, data[key]);
+        }
+    }
+    return template;
+};
+
+//BaseController.prototype.changeTabs = function (name) {
+//console.log('BaseController.prototype.changeTabs');
+//    window.addEventListener('load', function (event) {
+//        var list = document.getElementsByClassName('active');
+//
+//        var elements = document.getElementsByTagName('li'); // or other html element
+//        for (var i = 0; i < elements.length; i++) {
+//            console.log(elements.className);
+//        }
+//        var addActive = document.getElementsByClassName('tabs__item-' + name);
+//        console.log(addActive);
+//
+//        list.classList.remove("active");
+//
+//        addActive.className += ' active';
+//    });
+//};
+
 /*Controller for searching users */
 function SearchController() {
 
-    console.log('SearchController');
     BaseController.call(this);
     var $this = this;
     this.templatePath = '/templates/search.html';
 
     var searchHandler = (function (event) {
-        var self=this;
-        self.searchInput.removeEventListener('keyup',searchHandler,false);
+        var self = this;
+        self.searchInput.removeEventListener('keyup', searchHandler, false);
 
         setTimeout(function () {
-            var element=event.target;
-            console.log(element.value.length);
-            if(element.value.length==0){
-                self.searchPlaceholder.style.display="block";
-                self.searchArea.style.display="none";
-                self.notFoundBlock.style.display="none";
-            }else{
+            var element = event.target;
+            if (element.value.length == 0) {
+                self.searchPlaceholder.style.display = "block";
+                self.searchArea.style.display = "none";
+                self.notFoundBlock.style.display = "none";
+            } else {
                 Users.find(element.value, function (usersData) {
-                    self.searchPlaceholder.style.display="none";
-                    self.searchArea.style.display="block";
-                    self.notFoundBlock.style.display="none";
-                    var userList=document.createDocumentFragment();
-                    var ul=document.createElement('ul');
-                    var li=null;
-                    var a=null;
-                    ul.className='search-result__list';
+                    self.searchPlaceholder.style.display = "none";
+                    self.searchArea.style.display = "block";
+                    self.notFoundBlock.style.display = "none";
+                    var userList = document.createDocumentFragment();
+                    var ul = document.createElement('ul');
+                    var li = null;
+                    var a = null;
+                    ul.className = 'search-result__list';
                     usersData.items.forEach(function (user) {
-                        li=document.createElement('li');
-                        li.className='search-result__item';
-                        a=document.createElement('a');
-                        a.className='search-result__link';
+                        li = document.createElement('li');
+                        li.className = 'search-result__item';
+                        a = document.createElement('a');
+                        a.className = 'search-result__link';
+                        a.href = "/#/profile/" + user.id + "/main";
                         a.appendChild(document.createTextNode(user.login));
                         li.appendChild(a);
                         userList.appendChild(li);
 
                     });
                     ul.appendChild(userList);
-                    self.searchArea.replaceChild(ul,self.searchArea.firstElementChild);
+                    self.searchArea.replaceChild(ul, self.searchArea.firstElementChild);
                 })
 
             }
-            self.searchInput.addEventListener('keyup', searchHandler,false);
+            self.searchInput.addEventListener('keyup', searchHandler, false);
 
-        },500);
+        }, 500);
 
     }).bind(this);
 
     $this.loadTemplate($this.templatePath, function (template) {
-        document.title='Поиск';
+        document.title = 'Поиск';
 
-        $this.currentPageTitle.innerHTML=StateManager.getCurrentState().title;
-        $this.viewContainer.innerHTML=template;
+        $this.currentPageTitle.innerHTML = StateManager.getCurrentState().title;
+        $this.viewContainer.innerHTML = template;
 
-        $this.searchArea        = document.getElementById('searchArea');
-        $this.searchInput       = document.getElementById('searchInput');
+        $this.searchArea = document.getElementById('searchArea');
+        $this.searchInput = document.getElementById('searchInput');
         $this.searchPlaceholder = document.getElementById('searchPlaceholder');
-        $this.notFoundBlock     = document.getElementById('resultNotFound');
+        $this.notFoundBlock = document.getElementById('resultNotFound');
 
         $this.searchInput.addEventListener('keyup', searchHandler, false);
 
     });
 
 }
-SearchController.prototype=Object.create(BaseController.prototype);
+SearchController.prototype = Object.create(BaseController.prototype);
+
+//
+function ProfileMainController() {
+    BaseController.call(this);
+    var self = this;
+    var userId = RegExp.$1;
+    //console.log('ProfileMainController');
+
+
+    self.templatePath = '/templates/profile_main.html';
+
+    Users.getInfo(userId, function (receiveData) {
+        self.data = receiveData;
+
+        self.loadTemplate(self.templatePath, function (template) {
+            //self.spinner.style.du
+            document.title = 'Main Info';
+            self.currentPageTitle.innerHTML = StateManager.getCurrentState().title;
+
+            self.viewContainer.innerHTML = self.parseTemplate(template, {
+                userId: userId,
+
+                avatar: receiveData.avatar_url,
+                company: receiveData.company || 'Не указано',
+                name: receiveData.name || 'Не указано',
+                public_repos: receiveData.public_repos,
+                followers: receiveData.followers,
+                link: receiveData.html_url
+
+            });
+        })
+    })
+
+
+}
+
+ProfileMainController.prototype = Object.create(BaseController.prototype);
+
+function ProfileFollowersController() {
+    BaseController.call(this);
+    var self = this;
+    var userId = RegExp.$1;
+
+    self.templatePath = '/templates/profile.followers.html';
+
+    Users.getFollowers(userId, function (followersList) {
+
+        self.loadTemplate(self.templatePath, function (template) {
+            document.title = 'Список фолловеров';
+            self.currentPageTitle.innerHTML = StateManager.getCurrentState().title;
+
+            self.viewContainer.innerHTML = self.parseTemplate(template, {
+                userId: userId
+            });
+            self.makeUserList(followersList);
+            console.log('loadTemplate(self.templatePath');
+        });
+
+
+    })
+}
+
+ProfileFollowersController.prototype = Object.create(BaseController.prototype);
+
+function ProfileFollowingController(){
+    BaseController.call(this);
+}
+
+ProfileFollowingController.prototype=Object.create(BaseController.prototype);
