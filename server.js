@@ -7,7 +7,7 @@ var http = require("http"),
     EventEmmitter=require("events").EventEmitter;
 
 var fileEmmiter=new EventEmmitter();
-var port = 9090;
+var port = process.env.PORT ||5000;
 var pathPublic = "public";
 
 /*Обслуживание базового файла*/
