@@ -19,7 +19,7 @@ var Users = (function () {
             }, false);
             //my access token for github API 3699db9001042473393feca5ebdc18a8665c7551
             xhr.open('GET', 'https://api.github.com/search/users?q=' + query
-                + '&access_token=3699db9001042473393feca5ebdc18a8665c7551', true);
+                + '', true);
             xhr.send();
             xhr.addEventListener('load', function (event) {
                 spinner.style.display = 'none';
@@ -36,7 +36,7 @@ var Users = (function () {
         getInfo: function (userId, callback) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'https://api.github.com/user/' + userId
-                + '&access_token=3699db9001042473393feca5ebdc18a8665c7551', true);
+                + '', true);
 
             xhr.send();
             xhr.addEventListener('load', function (event) {
@@ -79,7 +79,7 @@ var Users = (function () {
 
             self.getFollowers.page = 1;
             xhr.open('GET', 'https://api.github.com/user/' + userId +
-                '/followers?access_token=3699db9001042473393feca5ebdc18a8665c7551&page=' +
+                '/followers?page=' +
                 self.getFollowers.page, true);
 
             xhr.send();
