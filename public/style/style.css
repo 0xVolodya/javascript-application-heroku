@@ -109,7 +109,7 @@ body {
     display: table-cell;
     width: 20%; }
     .profile .tabs__item:hover {
-      background-color: lightblue; }
+      background-color: #4078c0; }
   .profile .tabs__link {
     text-decoration: none;
     display: block;
@@ -122,10 +122,14 @@ body {
   font-size: 17px;
   margin-bottom: 20px; }
   .profile .content__logo {
-    width: 50%;
+    width: 40%;
     box-sizing: border-box;
     float: left;
-    padding-left: 10px; }
+    padding-left: 10px;
+    height: 300px; }
+    .profile .content__logo-img {
+      max-width: 100%;
+      max-height: 100%; }
   .profile .content__list {
     list-style: none;
     padding: 0px;
@@ -150,6 +154,8 @@ body {
     box-sizing: border-box; }
   .profile .links .fa-github {
     color: black; }
+    .profile .links .fa-github:hover {
+      color: #4078c0; }
 
 .user-list {
   padding: 0;
@@ -165,4 +171,24 @@ body {
     text-decoration: none;
     display: block;
     padding: 15px;
+    color: #767676; }
+
+.repositories {
+  width: 500px;
+  margin: 0 auto;
+  list-style: none; }
+  .repositories__item {
+    border: solid 1px #F2F2F2; }
+  .repositories__link {
+    text-decoration: none;
+    display: block;
+    padding: 15px 30px;
     color: black; }
+  .repositories__text {
+    display: block;
+    color: #4078c0;
+    font-weight: bold;
+    margin-bottom: 5px; }
+    .repositories__text-description {
+      color: #767676;
+      font-weight: normal; }

@@ -48,12 +48,12 @@ function writerStatic(requirePath, res) {
 function serveStatic(requirePath, res) {
     var path = pathPublic + requirePath;
     /*Возникате ошибка в хроме, если не подключен favicon.ico*/
-    if(requirePath==="/favicon.ico"){
+    /*if(requirePath==="/favicon.ico"){
         res.statusCode=404;
         res.end();
         return;
     }
-
+*/
     fs.readFile(path, function (err, fileData) {
         if (err) {
             throw err;

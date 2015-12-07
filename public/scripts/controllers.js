@@ -221,20 +221,20 @@ function ProfileFollowersController() {
 
 ProfileFollowersController.prototype = Object.create(BaseController.prototype);
 
-function ProfileFollowingController(){
+function ProfileFollowingController() {
     BaseController.call(this);
-    var self=this;
-    var userId=RegExp.$1;
+    var self = this;
+    var userId = RegExp.$1;
 
-    var templatePath='/templates/profile.following.html';
+    var templatePath = '/templates/profile.following.html';
     Users.getFollowings(userId, function (following) {
 
         self.loadTemplate(templatePath, function (template) {
-            document.title=StateManager.getCurrentState().title;
-            self.currentPageTitle=StateManager.getCurrentState().title;
+            document.title = StateManager.getCurrentState().title;
+            self.currentPageTitle = StateManager.getCurrentState().title;
 
-            self.viewContainer.innerHTML=self.parseTemplate(template,{
-              userId:userId
+            self.viewContainer.innerHTML = self.parseTemplate(template, {
+                userId: userId
             });
             self.makeUserList(following);
         })
@@ -242,19 +242,60 @@ function ProfileFollowingController(){
 
 }
 
-ProfileFollowingController.prototype=Object.create(BaseController.prototype);
+ProfileFollowingController.prototype = Object.create(BaseController.prototype);
 
-function ProfileRepositoriesController(){
+function ProfileRepositoriesController() {
     BaseController.call(this);
-    var self=this;
-    var templatePath='/templates/profile.followers.html';
-    var userId=RegExp.$1;
+    var self = this;
+    var templatePath = '/templates/profile.repositories.html';
+    var userId = RegExp.$1;
     Users.getRepositories(userId, function (repositories) {
 
         self.loadTemplate(templatePath, function (teamplate) {
+            document.title = StateManager.getCurrentState().title;
+            self.currentPageTitle = StateManager.getCurrentState().title;
+            self.viewContainer.innerHTML = self.parseTemplate(teamplate, {
+                userId: userId
+            });
 
-        })
+
+            var content = document.getElementsByClassName('content')[0];
+            console.log(content);
+            var fragment = document.createDocumentFragment();
+            var a = null;
+            var li = null;
+            var ul = document.createElement('ul');
+            var span=null;
+            ul.className = 'repositories';
+            repositories.forEach(function (element) {
+                a = document.createElement('a');
+
+                a.href = repositories.html_url;
+                a.className = 'repositories__link';
+                span=document.createElement('span');
+                span.className='repositories__text';
+
+                span.innerHTML=element.name;
+                a.appendChild(span);
+
+                span=document.createElement('span');
+                span.innerHTML='description: '+element.description;
+                span.className='repositories__text-description';
+                a.appendChild(span);
+
+                li = document.createElement('li');
+                li.className = 'repositories__item';
+                li.appendChild(a);
+                fragment.appendChild(li);
+            });
+            ul.appendChild(fragment);
+            console.log(ul);
+            content.appendChild(ul);
+
+
+
+        });
 
     })
 }
-ProfileRepositoriesController.prototype=Object.create(BaseController.prototype);
+ProfileRepositoriesController.prototype = Object.create(BaseController.prototype);

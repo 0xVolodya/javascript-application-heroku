@@ -54,7 +54,8 @@ var Users = (function () {
             self.getRepositories.page=1;
             xhr.open('GET', 'https://api.github.com/user/' + userId
                 + '/repos?page='+self.getRepositories.page);
-            console.log();
+            console.log('GET', 'https://api.github.com/user/' + userId
+                + '/repos?page='+self.getRepositories.page);
             xhr.send();
 
             xhr.addEventListener('load', function (event) {

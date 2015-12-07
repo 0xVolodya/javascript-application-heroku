@@ -33,14 +33,14 @@ var StateManager = (function () {
                 controller: ProfileFollowersController
             },
             {
-                name:"profile.following",
+                name:"following",
                 title:'Подписки',
                 pattern:/^#\/profile\/([0-9]+)\/following$/,
                 controller: ProfileFollowingController
             },
             {
-                name:"profile.repositories",
-                title:'Подписки',
+                name:"repositories",
+                title:'Репозитории',
                 pattern:/^#\/profile\/([0-9]+)\/repositories$/,
                 controller: ProfileRepositoriesController
             }
