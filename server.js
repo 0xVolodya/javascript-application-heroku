@@ -56,6 +56,7 @@ function serveStatic(requirePath, res) {
 */
     fs.readFile(path, function (err, fileData) {
         if (err) {
+            console.log(err.name);
             throw err;
         }
 

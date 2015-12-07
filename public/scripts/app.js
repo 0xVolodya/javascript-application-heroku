@@ -61,10 +61,9 @@ var StateManager = (function () {
     };
     var stateHandler= function () {
         setCurrentState();
-        if(currentState){
 
             new currentState.controller();// new currentState.controller(currentState);
-        }
+
     };
 
     return {

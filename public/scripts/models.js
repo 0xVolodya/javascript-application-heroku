@@ -5,11 +5,7 @@
 var Users = (function () {
     var spinner = document.getElementById('spinner');
 
-    var linkHeader = {
-        repositories: null,
-        followings: null,
-        followers: null
-    };
+
     return {
         find: function (query, callback) {
             var xhr = new XMLHttpRequest();
@@ -67,30 +63,7 @@ var Users = (function () {
             })
 
         },
-        //getFollowers: function (userId, callback) {
-        //    var xhr = new XMLHttpRequest();
-        //
-        //    var self = this;
-        //    self.page = 1;
-        //
-        //
-        //    xhr.open('GET', 'https://api.github.com/user/' +
-        //        userId + '/followers&access_token=3699db9001042473393feca5ebdc18a8665c7551&page='
-        //        + self.page);
-        //
-        //    xhr.send();
-        //
-        //    xhr.addEventListener('load', function (event) {
-        //        var response = event.target;
-        //
-        //        if (response.status == 200) {
-        //            self.getFollowers.page += 1;
-        //            //linkHeaders.followers = response.getResponseHeader('Link');
-        //            callback(JSON.parse(response.responseText));
-        //        }
-        //    })
-        //},
-        //
+
         getFollowers: function (userId, callback) {
             var xhr = new XMLHttpRequest();
             var self = this;
@@ -106,7 +79,6 @@ var Users = (function () {
                 var response = event.target;
                 if (response.status == 200) {
                     self.getFollowers.page += 1;
-                    //linkHeaders.followers = response.getResponseHeader('Link');
                     callback(JSON.parse(response.responseText));
                 }
             }, false);
@@ -131,10 +103,6 @@ var Users = (function () {
                     callback(JSON.parse(response.responseText));
                 }
             },false);
-        },
-
-        getLinkHeaders: function () {
-            return linkHeader;
         }
 
 
