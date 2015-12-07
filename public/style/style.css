@@ -55,6 +55,9 @@ body {
     position: relative;
     bottom: 10px;
     text-align: center; }
+    .container .page-footer__title {
+      text-decoration: none;
+      color: black; }
   .container #currentPageTitle {
     margin-left: 10px; }
 

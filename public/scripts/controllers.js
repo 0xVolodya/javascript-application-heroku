@@ -13,6 +13,7 @@ BaseController.prototype.loadTemplate = function (pathToTemplate, callback) {
     var template = sessionStorage.getItem(pathToTemplate);
 
     if (!template) {
+
         var xhr = new XMLHttpRequest();
         xhr.open('GET', pathToTemplate, true);
         xhr.send();
@@ -21,7 +22,7 @@ BaseController.prototype.loadTemplate = function (pathToTemplate, callback) {
             if (respond.status == 200) {
                 template = respond.responseText;
 
-                //sessionStorage.setItem(pathToTemplate,template);
+                sessionStorage.setItem(pathToTemplate,template);
                 callback(template);
             }
         }, false);
@@ -122,7 +123,7 @@ function SearchController() {
                         li.className = 'search-result__item';
                         a = document.createElement('a');
                         a.className = 'search-result__link';
-                        a.href = "/#/profile/" + user.id + "/main";
+                        a.href = "#/profile/" + user.id + "/main";
                         a.appendChild(document.createTextNode(user.login));
                         li.appendChild(a);
                         userList.appendChild(li);
@@ -260,7 +261,7 @@ function ProfileRepositoriesController() {
 
 
             var content = document.getElementsByClassName('content')[0];
-            console.log(content);
+            console.log(repositories);
             var fragment = document.createDocumentFragment();
             var a = null;
             var li = null;
@@ -270,7 +271,8 @@ function ProfileRepositoriesController() {
             repositories.forEach(function (element) {
                 a = document.createElement('a');
 
-                a.href = repositories.html_url;
+                a.href = element.html_url;
+                a.target='_blank';
                 a.className = 'repositories__link';
                 span=document.createElement('span');
                 span.className='repositories__text';

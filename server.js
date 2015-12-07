@@ -56,10 +56,9 @@ function serveStatic(requirePath, res) {
 */
     fs.readFile(path, function (err, fileData) {
         if (err) {
-            console.log(err.name);
             throw err;
         }
-
+        console.log(path);
         res.statusCode = 200;
         writerStatic(requirePath, res);
         res.write(fileData);
@@ -77,7 +76,7 @@ var server =http.createServer(function (req, res) {
     var requestPath=url.parse(req.url).pathname;
 
     if(req.method==="GET" && requestPath==="/"){
-        fs.exists(pathPublic+"tempates/index.html", function (exist) {
+        fs.exists(pathPublic+"templates/index.html", function (exist) {
             if(!exist){
                 fileEmmiter.emit("fileError","файл отсутствует");
             }
