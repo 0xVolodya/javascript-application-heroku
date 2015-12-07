@@ -4,9 +4,7 @@
 var app = (function () {
     return {
         init: function () {
-            if (!location.hash) {
-                location.hash = "#/";
-            }
+            window.history.pushState(null,null,'/templates/search.html');
             StateManager.restore();
             StateManager.setHandler();
         }
@@ -17,31 +15,31 @@ var StateManager = (function () {
             {
                 name: 'search',
                 title: 'поиск пользователей',
-                pattern: /^#\/$/,
+                pattern: /^\/$/,
                 controller: SearchController
             },
             {
                 name:"profile.main",
                 title:'Основная информация',
-                pattern:/^#\/profile\/([0-9]+)\/main$/,
+                pattern:/^\/profile\/([0-9]+)\/main$/,
                 controller: ProfileMainController
             },
             {
                 name:"profile.followers",
                 title:'Фолловеры',
-                pattern:/^#\/profile\/([0-9]+)\/followers$/,
+                pattern:/^\/profile\/([0-9]+)\/followers$/,
                 controller: ProfileFollowersController
             },
             {
                 name:"following",
                 title:'Подписки',
-                pattern:/^#\/profile\/([0-9]+)\/following$/,
+                pattern:/^\/profile\/([0-9]+)\/following$/,
                 controller: ProfileFollowingController
             },
             {
                 name:"repositories",
                 title:'Репозитории',
-                pattern:/^#\/profile\/([0-9]+)\/repositories$/,
+                pattern:/^\/profile\/([0-9]+)\/repositories$/,
                 controller: ProfileRepositoriesController
             }
 
@@ -50,8 +48,10 @@ var StateManager = (function () {
 
     //Определение текущей странички по states
     var setCurrentState = function () {
+        console.log(window.history);
+        console.log(history.state);
         for (var i = 0; i < states.length; i++) {
-            console.log(states[i].pattern.test(location.hash)+' '+location.hash);
+            console.log(states[i].pattern.test(history.state)+' '+location.hash);
             if (states[i].pattern.test(location.hash)) {
                 currentState = states[i];
                 break;
@@ -69,9 +69,8 @@ var StateManager = (function () {
 
     return {
         restore: function () {
-            if(location.hash!==''){
                 stateHandler();
-            }
+
         },
         setHandler: function () {
             window.addEventListener('hashchange',stateHandler,false);

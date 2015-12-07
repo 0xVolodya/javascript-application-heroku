@@ -43,7 +43,7 @@ BaseController.prototype.makeUserList = function (userList) {
     userList.forEach(function (user) {
 
         a = document.createElement('a');
-        a.href = '#/profile/' + user.id + '/main';
+        a.href = '/profile/' + user.id + '/main';
         a.className = 'user-list__link';
         a.appendChild(document.createTextNode(user.login));
         li = document.createElement('li');
@@ -122,7 +122,7 @@ function SearchController() {
                         li.className = 'search-result__item';
                         a = document.createElement('a');
                         a.className = 'search-result__link';
-                        a.href = "/#/profile/" + user.id + "/main";
+                        a.href = "/profile/" + user.id + "/main";
                         a.appendChild(document.createTextNode(user.login));
                         li.appendChild(a);
                         userList.appendChild(li);
