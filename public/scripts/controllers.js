@@ -34,7 +34,7 @@ BaseController.prototype.loadTemplate = function (pathToTemplate, callback) {
 
 BaseController.prototype.makeUserList = function (userList) {
     var content = document.getElementsByClassName('content')[0];
-
+    console.log(document);
     var fragment = document.createDocumentFragment();
     var ul = document.createElement('ul');
     ul.className = 'user-list';
@@ -53,9 +53,11 @@ BaseController.prototype.makeUserList = function (userList) {
 
     });
     ul.appendChild(fragment);
+    console.log(ul);
     content.appendChild(ul);
 };
 
+//Типо шаблонизатор, заменяет {{variable}} на значение
 BaseController.prototype.parseTemplate = function (template, data) {
     var regexp;
 
@@ -160,7 +162,6 @@ function ProfileMainController() {
     BaseController.call(this);
     var self = this;
     var userId = RegExp.$1;
-    //console.log('ProfileMainController');
 
 
     self.templatePath = '/templates/profile_main.html';
@@ -198,7 +199,9 @@ function ProfileFollowersController() {
     var userId = RegExp.$1;
 
     self.templatePath = '/templates/profile.followers.html';
+    console.log('ProfileFollowersController');
 
+    var followers;
     Users.getFollowers(userId, function (followersList) {
 
         self.loadTemplate(self.templatePath, function (template) {
@@ -211,15 +214,47 @@ function ProfileFollowersController() {
             self.makeUserList(followersList);
             console.log('loadTemplate(self.templatePath');
         });
+    });
 
 
-    })
 }
 
 ProfileFollowersController.prototype = Object.create(BaseController.prototype);
 
 function ProfileFollowingController(){
     BaseController.call(this);
+    var self=this;
+    var userId=RegExp.$1;
+
+    var templatePath='/templates/profile.following.html';
+    Users.getFollowings(userId, function (following) {
+
+        self.loadTemplate(templatePath, function (template) {
+            document.title=StateManager.getCurrentState().title;
+            self.currentPageTitle=StateManager.getCurrentState().title;
+
+            self.viewContainer.innerHTML=self.parseTemplate(template,{
+              userId:userId
+            });
+            self.makeUserList(following);
+        })
+    })
+
 }
 
 ProfileFollowingController.prototype=Object.create(BaseController.prototype);
+
+function ProfileRepositoriesController(){
+    BaseController.call(this);
+    var self=this;
+    var templatePath='/templates/profile.followers.html';
+    var userId=RegExp.$1;
+    Users.getRepositories(userId, function (repositories) {
+
+        self.loadTemplate(templatePath, function (teamplate) {
+
+        })
+
+    })
+}
+ProfileRepositoriesController.prototype=Object.create(BaseController.prototype);

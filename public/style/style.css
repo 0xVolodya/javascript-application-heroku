@@ -80,6 +80,8 @@ body {
       padding: 10px; }
     #viewContainer .search-form .searchText {
       margin-top: 101px; }
+    #viewContainer .search-form .searchNotFound {
+      display: none; }
   #viewContainer .search-result__list {
     list-style: none;
     margin-top: 0px;

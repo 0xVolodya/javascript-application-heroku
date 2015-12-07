@@ -1,6 +1,7 @@
 /**
  * Created by vladimir on 04.12.15.
  */
+//возвращает JSON объекты
 var Users = (function () {
     var spinner = document.getElementById('spinner');
 
@@ -35,6 +36,7 @@ var Users = (function () {
         },
         getInfo: function (userId, callback) {
             var xhr = new XMLHttpRequest();
+
             xhr.open('GET', 'https://api.github.com/user/' + userId
                 + '', true);
 
@@ -46,7 +48,22 @@ var Users = (function () {
                 }
             }, false);
         },
-        getRepositories: function (udesId, callback) {
+        getRepositories: function (userId, callback) {
+            var xhr=new XMLHttpRequest();
+            var self=this;
+            self.getRepositories.page=1;
+            xhr.open('GET', 'https://api.github.com/user/' + userId
+                + '/repos?page='+self.getRepositories.page);
+            console.log();
+            xhr.send();
+
+            xhr.addEventListener('load', function (event) {
+                var response=event.target;
+                if(response.status==200){
+                    self.getRepositories.page+=1;
+                    callback(JSON.parse(response.responseText));
+                }
+            })
 
         },
         //getFollowers: function (userId, callback) {
@@ -89,13 +106,32 @@ var Users = (function () {
                 if (response.status == 200) {
                     self.getFollowers.page += 1;
                     //linkHeaders.followers = response.getResponseHeader('Link');
-                     callback(JSON.parse(response.responseText));
+                    callback(JSON.parse(response.responseText));
+                }
+            }, false);
+        },
+
+        getFollowings: function (userId, callback) {
+            var xhr = new XMLHttpRequest();
+            var self=this;
+            console.log(self);
+            self.getFollowings.page=1;
+
+            xhr.open('GET','https://api.github.com/user/'+userId+'/following?page='+
+                self.getFollowings.page);
+
+            xhr.send();
+
+            xhr.addEventListener('load', function (event) {
+                var response=event.target;
+
+                if(response.status==200){
+                    self.getFollowings.page+=1;
+                    callback(JSON.parse(response.responseText));
                 }
             },false);
         },
-        getFollowings: function (userId, callback) {
 
-        },
         getLinkHeaders: function () {
             return linkHeader;
         }
